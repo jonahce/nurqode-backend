@@ -1,0 +1,35 @@
+const mongoose = require('mongoose');
+
+const contactSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  email: {
+    type: String,
+    required: true,
+    lowercase: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  country: {
+    type: String,
+    required: true
+  },
+  message: {
+    type: String,
+    required: true
+  },
+  projectType: {
+    type: String,
+    enum: ['web-development', 'ecommerce', 'seo', 'maintenance', 'consulting', 'other'],
+    default: 'web-development'
+  }
+}, {
+  timestamps: true
+});
+
+module.exports = mongoose.model('Contact', contactSchema);
