@@ -6,7 +6,12 @@ const cors = require('cors');
 
 const app = express();
 
-app.use(cors());
+// Fix CORS - allow your domain
+app.use(cors({
+    origin: ['https://nurqode.space', 'https://www.nurqode.space'],
+    credentials: true
+}));
+
 app.use(express.json());
 
 // Routes
