@@ -19,20 +19,35 @@ router.post('/submit', async (req, res) => {
 
     await contact.save();
 
-    // Send email notification
-    await sendContactNotification({
-    name, email, phone, country, message, projectType
-    });
-
-    res.status(201).json({
-    message: 'Contact form submitted successfully',
-    contact: {
-        id: contact._id,
-        name: contact.name,
-        email: contact.email
+    try {
+      // Send email notification
+      await sendContactNotification({
+        name, email, phone, country, message, projectType
+      });
+      
+      res.status(201).json({
+        message: 'Contact form submitted successfully! We will get back to you soon.',
+        contact: {
+          id: contact._id,
+          name: contact.name,
+          email: contact.email
+        }
+      });
+    } catch (emailError) {
+      // Still respond success even if email fails
+      console.error('Email failed but contact saved:', emailError);
+      res.status(201).json({
+        message: 'Contact form submitted successfully! (Email notification failed)',
+        contact: {
+          id: contact._id,
+          name: contact.name,
+          email: contact.email
+        }
+      });
     }
-    });
+    
   } catch (error) {
+    console.error('Contact submission error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 });
