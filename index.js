@@ -8,7 +8,7 @@ const app = express();
 
 // Fix CORS - allow your domain
 app.use(cors({
-    origin: '*', // Allow ALL origins temporarily
+    origin: ['https://nurqode.space', 'https://www.nurqode.space'],
     credentials: true
 }));
 
